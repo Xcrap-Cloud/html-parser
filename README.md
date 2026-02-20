@@ -1,4 +1,4 @@
-# 🕷️ Xcrap Extractor: Parsing HTML with Rust
+# 🕷️ Xcrap HTML Parser: Parsing HTML with Rust
 
 Xcrap HTML Parser is an **experimental library** written in Rust, built with the NAPI-RS framework for compatibility with Node.js. Its goal is to be fast, lightweight, and support both CSS and XPath queries. Designed for the Xcrap framework ecosystem — but not limited to it — it natively provides query options and limits on processed elements.
 
