@@ -102,9 +102,9 @@
   },
   "packageManager": "yarn@4.12.0",
   "optionalDependencies": {
-    "@xcrap/html-parser-win32-x64-msvc": "0.1.1",
-    "@xcrap/html-parser-darwin-x64": "0.1.1",
-    "@xcrap/html-parser-linux-x64-gnu": "0.1.1",
-    "@xcrap/html-parser-darwin-arm64": "0.1.1"
+    "@xcrap/html-parser-win32-x64-msvc": "0.1.0",
+    "@xcrap/html-parser-darwin-x64": "0.1.0",
+    "@xcrap/html-parser-linux-x64-gnu": "0.1.0",
+    "@xcrap/html-parser-darwin-arm64": "0.1.0"
   }
 }
