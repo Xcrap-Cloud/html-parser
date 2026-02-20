@@ -35,7 +35,7 @@ pub fn select_many_by_css(document: &Html, query: String, limit: Option<i32>) ->
     let selection = document.select(&selector);
 
     let iter = selection.map(|element| HtmlElement {
-        outer_html: element.inner_html()
+        outer_html: element.html()
     });
 
     if let Some(l) = limit {

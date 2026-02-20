@@ -1,26 +1,20 @@
 {
   "name": "@xcrap/html-parser",
   "version": "0.1.0",
-  "description": "Template project for writing node package with napi-rs",
+  "description": "Xcrap HTML Parser",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/napi-rs/package-template.git"
+    "url": "git+ssh://git@github.com/Xcrap-Cloud/html-parser.git"
   },
   "license": "MIT",
-  "browser": "browser.js",
   "keywords": [
-    "napi-rs",
-    "NAPI",
-    "N-API",
-    "Rust",
-    "node-addon",
-    "node-addon-api"
+    "xcrap",
+    "html parser"
   ],
   "files": [
     "index.d.ts",
-    "index.js",
-    "browser.js"
+    "index.js"
   ],
   "napi": {
     "binaryName": "html-parser",
