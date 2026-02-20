@@ -1,13 +1,17 @@
 {
   "name": "@xcrap/html-parser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Xcrap HTML Parser is an experimental library written in Rust, built with the NAPI-RS framework for compatibility with Node.js. Its goal is to be fast, lightweight, and support both CSS and XPath queries. Designed for the Xcrap framework ecosystem — but not limited to it — it natively provides query options and limits on processed elements.",
   "main": "index.js",
+  "types": "index.d.ts",
+  "type": "commonjs",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/Xcrap-Cloud/html-parser.git"
   },
   "license": "MIT",
+  "author": "Marcuth <me@marcuth.dev>",
+  "homepage": "https://github.com/Xcrap-Cloud/html-parser#readme",
   "keywords": [
     "xcrap",
     "html parser"
@@ -26,7 +30,7 @@
     ]
   },
   "engines": {
-    "node": ">= 6.14.2 < 7 || >= 8.11.2 < 9 || >= 9.11.0 < 10 || >= 10.0.0"
+    "node": ">= 18.0.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
