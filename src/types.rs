@@ -34,8 +34,9 @@ impl HtmlElement {
     #[napi(getter)]
     pub fn id(&self) -> Option<String> {
         let fragment = Html::parse_fragment(&self.outer_html);
-        let element = fragment.root_element();
-        return element.value().id().map(|id_str| id_str.to_string());
+        return self.get_real_element(&fragment)
+            .and_then(|el| el.value().id())
+            .map(|id_str| id_str.to_string());
     }
 
     fn get_real_element<'a>(&self, fragment: &'a Html,
