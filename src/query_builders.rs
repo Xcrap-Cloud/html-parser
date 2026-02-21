@@ -1,6 +1,6 @@
 use napi_derive::napi;
 
-use crate::{QueryType, QueryConfig};
+use crate::{QueryConfig, QueryType};
 
 #[napi]
 pub fn css(query: String) -> QueryConfig {

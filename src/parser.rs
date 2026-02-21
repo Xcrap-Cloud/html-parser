@@ -2,13 +2,10 @@ use napi_derive::napi;
 use scraper::Html;
 use sxd_document::Package;
 
-use crate::types::{HTMLElement, QueryType, SelectFirstOptions, SelectManyOptions};
 use crate::engines::{
-    select_first_by_css, 
-    select_first_by_xpath, 
-    select_many_by_css, 
-    select_many_by_xpath
+    select_first_by_css, select_first_by_xpath, select_many_by_css, select_many_by_xpath,
 };
+use crate::types::{HTMLElement, QueryType, SelectFirstOptions, SelectManyOptions};
 
 #[napi(js_name = "HTMLParser")]
 pub struct HTMLParser {
@@ -25,7 +22,7 @@ impl HTMLParser {
             content,
             document: None,
             package: None,
-        }
+        };
     }
 
     fn get_package(&mut self) -> &Package {
@@ -50,16 +47,15 @@ impl HTMLParser {
     pub fn select_first(&mut self, options: SelectFirstOptions) -> Option<HTMLElement> {
         let query_config = options.query;
 
-
         match query_config.query_type {
             QueryType::CSS => {
                 let document = self.get_document();
                 return select_first_by_css(&document, query_config.query);
-            },
+            }
             QueryType::XPath => {
                 let package = self.get_package();
                 return select_first_by_xpath(&package, query_config.query);
-            },
+            }
         }
     }
 

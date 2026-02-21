@@ -1,7 +1,9 @@
 use napi_derive::napi;
 use scraper::{Element, Html};
 
-use crate::engines::{select_first_by_css, select_first_by_xpath, select_many_by_css, select_many_by_xpath};
+use crate::engines::{
+    select_first_by_css, select_first_by_xpath, select_many_by_css, select_many_by_xpath,
+};
 
 #[napi]
 pub enum QueryType {
@@ -41,13 +43,13 @@ impl HTMLElement {
     #[napi(getter)]
     pub fn id(&self) -> Option<String> {
         let fragment = Html::parse_fragment(&self.outer_html);
-        return self.get_real_element(&fragment)
+        return self
+            .get_real_element(&fragment)
             .and_then(|el| el.value().id())
             .map(|id_str| id_str.to_string());
     }
 
-    fn get_real_element<'a>(&self, fragment: &'a Html,
-    ) -> Option<scraper::ElementRef<'a>> {
+    fn get_real_element<'a>(&self, fragment: &'a Html) -> Option<scraper::ElementRef<'a>> {
         let element = fragment.root_element();
 
         return element
@@ -70,7 +72,8 @@ impl HTMLElement {
     pub fn get_attribute(&self, name: String) -> Option<String> {
         let fragment = Html::parse_fragment(&self.outer_html);
 
-        return self.get_real_element(&fragment)
+        return self
+            .get_real_element(&fragment)
             .and_then(|el| el.value().attr(&name))
             .map(|v| v.to_string());
     }
@@ -93,7 +96,8 @@ impl HTMLElement {
     pub fn class_name(&self) -> String {
         let fragment = Html::parse_fragment(&self.outer_html);
 
-        return self.get_real_element(&fragment)
+        return self
+            .get_real_element(&fragment)
             .and_then(|el| el.value().attr("class"))
             .unwrap_or("")
             .to_string();
@@ -103,13 +107,11 @@ impl HTMLElement {
     pub fn class_list(&self) -> Vec<String> {
         let fragment = Html::parse_fragment(&self.outer_html);
 
-        return match self.get_real_element(&fragment)
-            .and_then(|el| el.value().attr("class")) 
+        return match self
+            .get_real_element(&fragment)
+            .and_then(|el| el.value().attr("class"))
         {
-            Some(classes) => classes
-                .split_whitespace()
-                .map(|s| s.to_string())
-                .collect(),
+            Some(classes) => classes.split_whitespace().map(|s| s.to_string()).collect(),
             None => vec![],
         };
     }
@@ -122,11 +124,11 @@ impl HTMLElement {
             QueryType::CSS => {
                 let document = Html::parse_fragment(&self.outer_html);
                 return select_first_by_css(&document, query_config.query);
-            },
+            }
             QueryType::XPath => {
                 let package = sxd_html::parse_html(&self.outer_html);
                 return select_first_by_xpath(&package, query_config.query);
-            },
+            }
         }
     }
 
@@ -138,11 +140,11 @@ impl HTMLElement {
             QueryType::CSS => {
                 let document = Html::parse_fragment(&self.outer_html);
                 return select_many_by_css(&document, query_config.query, options.limit);
-            },
+            }
             QueryType::XPath => {
                 let package = sxd_html::parse_html(&self.outer_html);
                 return select_many_by_xpath(&package, query_config.query, options.limit);
-            },
+            }
         }
     }
 
@@ -150,9 +152,8 @@ impl HTMLElement {
     pub fn first_child(&self) -> Option<HTMLElement> {
         let fragment = Html::parse_fragment(&self.outer_html);
         let real_element = self.get_real_element(&fragment)?;
-        
-        let child_node = real_element
-            .first_element_child()?;
+
+        let child_node = real_element.first_element_child()?;
 
         return Some(HTMLElement {
             outer_html: child_node.html(),
@@ -167,7 +168,7 @@ impl HTMLElement {
         let child_node = real_element
             .children()
             .filter_map(scraper::ElementRef::wrap)
-            .next_back()?; 
+            .next_back()?;
 
         return Some(HTMLElement {
             outer_html: child_node.html(),
