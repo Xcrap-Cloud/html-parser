@@ -576,8 +576,9 @@ if (!nativeBinding) {
 }
 
 module.exports = nativeBinding
-module.exports.HtmlElement = nativeBinding.HtmlElement
-module.exports.HtmlParser = nativeBinding.HtmlParser
+module.exports.HTMLElement = nativeBinding.HTMLElement
+module.exports.HTMLParser = nativeBinding.HTMLParser
 module.exports.css = nativeBinding.css
+module.exports.parse = nativeBinding.parse
 module.exports.QueryType = nativeBinding.QueryType
 module.exports.xpath = nativeBinding.xpath

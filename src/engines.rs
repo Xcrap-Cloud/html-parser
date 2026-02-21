@@ -1,24 +1,24 @@
-use crate::types::HtmlElement;
+use crate::types::HTMLElement;
 use scraper::{Html};
 use sxd_document::Package;
 use sxd_xpath::evaluate_xpath;
 
-pub fn select_first_by_css(document: &Html, query: String) -> Option<HtmlElement> {
+pub fn select_first_by_css(document: &Html, query: String) -> Option<HTMLElement> {
     let selector = scraper::Selector::parse(&query).ok()?;
 
     return document.select(&selector)
         .next()
-        .map(|element| HtmlElement {
+        .map(|element| HTMLElement {
             outer_html: element.html(),
         });
 }
 
-pub fn select_first_by_xpath(document_xpath: &Package, query: String) -> Option<HtmlElement> {
+pub fn select_first_by_xpath(document_xpath: &Package, query: String) -> Option<HTMLElement> {
     let document = document_xpath.as_document();
     let result = evaluate_xpath(&document, &query).ok()?;
 
     if let sxd_xpath::Value::Nodeset(nodeset) = result {
-        return nodeset.document_order_first().map(|node| HtmlElement {
+        return nodeset.document_order_first().map(|node| HTMLElement {
             outer_html: node.string_value(),
         });
     }
@@ -26,7 +26,7 @@ pub fn select_first_by_xpath(document_xpath: &Package, query: String) -> Option<
     return None;
 }
 
-pub fn select_many_by_css(document: &Html, query: String, limit: Option<i32>) -> Vec<HtmlElement> {
+pub fn select_many_by_css(document: &Html, query: String, limit: Option<i32>) -> Vec<HTMLElement> {
     let selector = match scraper::Selector::parse(&query) {
         Ok(sel) => sel,
         Err(_) => return vec![],
@@ -34,7 +34,7 @@ pub fn select_many_by_css(document: &Html, query: String, limit: Option<i32>) ->
 
     let selection = document.select(&selector);
 
-    let iter = selection.map(|element| HtmlElement {
+    let iter = selection.map(|element| HTMLElement {
         outer_html: element.html()
     });
 
@@ -47,7 +47,7 @@ pub fn select_many_by_css(document: &Html, query: String, limit: Option<i32>) ->
     return iter.collect();
 }
 
-pub fn select_many_by_xpath(package: &Package, query: String, limit: Option<i32>) -> Vec<HtmlElement> {
+pub fn select_many_by_xpath(package: &Package, query: String, limit: Option<i32>) -> Vec<HTMLElement> {
     let document = package.as_document();
 
     let result = match evaluate_xpath(&document, &query) {
@@ -60,7 +60,7 @@ pub fn select_many_by_xpath(package: &Package, query: String, limit: Option<i32>
 
         let iter = nodes
             .iter()
-            .map(|node| HtmlElement {
+            .map(|node| HTMLElement {
                 outer_html: node.string_value()
             });
 

@@ -16,14 +16,21 @@ pub struct QueryConfig {
     pub query_type: QueryType,
 }
 
-#[napi]
-pub struct HtmlElement {
+#[napi(js_name = "HTMLElement")]
+pub struct HTMLElement {
     #[napi(js_name = "outerHTML")]
     pub outer_html: String,
 }
 
 #[napi]
-impl HtmlElement {
+impl HTMLElement {
+    #[napi(getter, js_name = "innerHTML")]
+    pub fn inner_html(&self) -> String {
+        let fragment = Html::parse_fragment(&self.outer_html);
+        let element = self.get_real_element(&fragment).unwrap();
+        return element.inner_html();
+    }
+
     #[napi(getter)]
     pub fn text(&self) -> String {
         let fragment = Html::parse_fragment(&self.outer_html);
@@ -108,7 +115,7 @@ impl HtmlElement {
     }
 
     #[napi]
-    pub fn select_first(&self, options: SelectFirstOptions) -> Option<HtmlElement> {
+    pub fn select_first(&self, options: SelectFirstOptions) -> Option<HTMLElement> {
         let query_config = options.query;
 
         match query_config.query_type {
@@ -124,7 +131,7 @@ impl HtmlElement {
     }
 
     #[napi]
-    pub fn select_many(&self, options: SelectManyOptions) -> Vec<HtmlElement> {
+    pub fn select_many(&self, options: SelectManyOptions) -> Vec<HTMLElement> {
         let query_config = options.query;
 
         match query_config.query_type {
@@ -140,20 +147,20 @@ impl HtmlElement {
     }
 
     #[napi(getter)]
-    pub fn first_child(&self) -> Option<HtmlElement> {
+    pub fn first_child(&self) -> Option<HTMLElement> {
         let fragment = Html::parse_fragment(&self.outer_html);
         let real_element = self.get_real_element(&fragment)?;
         
         let child_node = real_element
             .first_element_child()?;
 
-        return Some(HtmlElement {
+        return Some(HTMLElement {
             outer_html: child_node.html(),
         });
     }
 
     #[napi(getter)]
-    pub fn last_child(&self) -> Option<HtmlElement> {
+    pub fn last_child(&self) -> Option<HTMLElement> {
         let fragment = Html::parse_fragment(&self.outer_html);
         let real_element = self.get_real_element(&fragment)?;
 
@@ -162,7 +169,7 @@ impl HtmlElement {
             .filter_map(scraper::ElementRef::wrap)
             .next_back()?; 
 
-        return Some(HtmlElement {
+        return Some(HTMLElement {
             outer_html: child_node.html(),
         });
     }
@@ -182,20 +189,4 @@ pub struct SelectFirstOptions {
 pub struct SelectManyOptions {
     pub query: QueryConfig,
     pub limit: Option<i32>,
-}
-
-#[napi]
-pub fn css(query: String) -> QueryConfig {
-    return QueryConfig {
-        query: query,
-        query_type: QueryType::CSS,
-    };
-}
-
-#[napi]
-pub fn xpath(query: String) -> QueryConfig {
-    return QueryConfig {
-        query: query,
-        query_type: QueryType::XPath,
-    };
 }
