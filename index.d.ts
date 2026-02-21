@@ -11,6 +11,9 @@ export declare class HtmlElement {
   get classList(): Array<string>
   selectFirst(options: SelectFirstOptions): HtmlElement | null
   selectMany(options: SelectManyOptions): Array<HtmlElement>
+  get firstChild(): HtmlElement | null
+  get lastChild(): HtmlElement | null
+  toString(): string
 }
 
 export declare class HtmlParser {

@@ -1,5 +1,5 @@
 use napi_derive::napi;
-use scraper::Html;
+use scraper::{Element, Html};
 
 use crate::engines::{select_first_by_css, select_first_by_xpath, select_many_by_css, select_many_by_xpath};
 
@@ -137,6 +137,39 @@ impl HtmlElement {
                 return select_many_by_xpath(&package, query_config.query, options.limit);
             },
         }
+    }
+
+    #[napi(getter)]
+    pub fn first_child(&self) -> Option<HtmlElement> {
+        let fragment = Html::parse_fragment(&self.outer_html);
+        let real_element = self.get_real_element(&fragment)?;
+        
+        let child_node = real_element
+            .first_element_child()?;
+
+        return Some(HtmlElement {
+            outer_html: child_node.html(),
+        });
+    }
+
+    #[napi(getter)]
+    pub fn last_child(&self) -> Option<HtmlElement> {
+        let fragment = Html::parse_fragment(&self.outer_html);
+        let real_element = self.get_real_element(&fragment)?;
+
+        let child_node = real_element
+            .children()
+            .filter_map(scraper::ElementRef::wrap)
+            .next_back()?; 
+
+        return Some(HtmlElement {
+            outer_html: child_node.html(),
+        });
+    }
+
+    #[napi]
+    pub fn to_string(&self) -> &String {
+        return &self.outer_html;
     }
 }
 
