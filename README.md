@@ -48,7 +48,7 @@ Although part of the [Xcrap](https://github.com/Xcrap-Cloud) scraping ecosystem,
 - **🔢 Built-in Limits** — Pass a `limit` option to `selectMany` to cap the number of returned elements.
 - **🌲 Element Traversal** — Navigate nested elements using `selectFirst` and `selectMany` directly on `HTMLElement` instances.
 - **🔒 Type-Safe** — Fully typed TypeScript declarations included (`index.d.ts`).
-- **🖥️ Multi-platform** — Pre-built native binaries for Windows (x64), macOS (x64 and ARM64), and Linux (x64).
+- **🖥️ Platform Support** — Pre-built native binary currently available for **Windows x64** only. Other platforms require compilation from source (see [Development](#️-development)).
 
 ---
 
@@ -94,14 +94,16 @@ pnpm add @xcrap/html-parser
 **Requirements:**
 - Node.js **>= 18.0.0**
 
-Native binaries are pre-built and distributed for the following platforms. No compilation step is required for end users.
+Native binaries are pre-built and distributed for the following platforms:
 
-| Platform         | Architecture | Support |
-|------------------|--------------|---------|
-| Windows          | x64          | ✅      |
-| macOS            | x64          | ✅      |
-| macOS            | ARM64        | ✅      |
-| Linux            | x64 (GNU)    | ✅      |
+| Platform         | Architecture | Support         |
+|------------------|--------------|-----------------|
+| Windows          | x64          | ✅ Pre-built    |
+| macOS            | x64          | 🔧 Build from source |
+| macOS            | ARM64        | 🔧 Build from source |
+| Linux            | x64 (GNU)    | 🔧 Build from source |
+
+> **⚠️ Note:** Currently only the **Windows x64** binary is pre-built and included in the published package. Users on other platforms must compile the native addon locally — see the [Development](#️-development) section for instructions.
 
 ---
 
@@ -517,7 +519,7 @@ The output binary (`html-parser.<platform>.node`) will be placed in the project 
 yarn test
 ```
 
-Tests are written with [AVA](https://github.com/avajs/ava) and located in `__test__/index.spec.ts`.
+Tests are written with [AVA](https://github.com/avajs/ava) and located in the `__test__/` directory.
 
 ### Formatting
 
